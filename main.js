@@ -77,7 +77,7 @@ window.onload = function() {
 
     var ctx = canvas.getContext("2d");
 
-    var text = "❤️ Hello Friend! 😊❤️".split("");
+    var text = "❤️ Vaa Ele ❤️".split("");
     var x = canvas.width / 2;
     var y = canvas.height / 2;
     var size = 30;
