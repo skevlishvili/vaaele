@@ -1,5 +1,6 @@
 var canvas = document.getElementById("myCanvas");
 
+
 class Confetti {
     constructor() {
         this.x = Math.random() * canvas.width;
@@ -28,8 +29,43 @@ class Confetti {
     }
 }
 
+class Shiba {
+    constructor(image) {
+        this.image = image;
+        this.scale = 0.1; // Scale factor for the image size
+        this.width = this.image.width * this.scale; // Adjusted image width
+        this.height = this.image.height * this.scale; // Adjusted image height
+        this.x = Math.random() * (canvas.width - this.width);
+        this.y = Math.random() * (canvas.height - this.height);
+        this.vx = (Math.random() - 0.5) * 8;
+        this.vy = (Math.random() - 0.5) * 8;
+        this.gravity = 0.2; // Gravity factor
+        this.bounceFactor = 0.7; // Bounce factor
+    }
+
+    update() {
+        this.vy += this.gravity; // Apply gravity to vertical speed
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Bounce off the edges of the canvas
+        if (this.x < 0 || this.x + this.width > canvas.width) {
+            this.vx = -this.vx;
+        }
+        if (this.y + this.height > canvas.height) {
+            this.y = canvas.height - this.height;
+            this.vy = -Math.abs(this.vy) * this.bounceFactor;
+        }
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+}
+
 
 window.onload = function() {
+    var canvas = document.getElementById("myCanvas");
 
     // Set canvas size to full viewport
     canvas.width = window.innerWidth;
@@ -42,8 +78,8 @@ window.onload = function() {
     var y = canvas.height / 2;
     var size = 30;
     var amplitude = 30;
-    var frequency = 0.1; // increased frequency
-    var speed = 0.1; // increased speed
+    var frequency = 0.1;
+    var speed = 0.1;
     var offsetX = 0;
     var step = 0;
 
@@ -53,9 +89,18 @@ window.onload = function() {
     }
 
     ctx.font = size + "px 'Press Start 2P'";
-
-
     ctx.textAlign = "center";
+
+    var shiba
+
+    // Load image
+    var image = new Image();
+    image.src = 'https://img.freepik.com/premium-vector/pixel-art-dog-character-design-shiba_534389-2.jpg?w=2000'; // replace with your image URL
+    image.onload = function() {
+        // Create Shiba object
+        shiba = new Shiba(image);
+        animate();
+    };
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -76,16 +121,18 @@ window.onload = function() {
             var xPos = x + (i - text.length / 2) * size;
 
             // Create opacity transition for each character
-            ctx.fillStyle = "rgba(255, 105, 180, " + Math.min(step / i, 1) + ")"; // adjust RGBA values for desired color
+            ctx.fillStyle = "rgba(255, 105, 180, " + Math.min(step / i, 1) + ")";
 
             ctx.fillText(char, xPos, yPos);
         }
 
+        // Update and draw the Shiba
+        shiba.update();
+        shiba.draw(ctx);
+
         offsetX += speed;
-        step = Math.min(step + 0.5, text.length); // increased the step increment to make characters appear faster
+        step = Math.min(step + 0.5, text.length);
 
         requestAnimationFrame(animate);
     }
-
-    animate();
 };
