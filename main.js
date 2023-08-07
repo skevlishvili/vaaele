@@ -61,11 +61,15 @@ class Shiba {
     draw(ctx) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
+
+    // Method to make the Shiba jump
+    jump() {
+        this.vy = -10;
+    }
 }
 
 
 window.onload = function() {
-    var canvas = document.getElementById("myCanvas");
 
     // Set canvas size to full viewport
     canvas.width = window.innerWidth;
@@ -73,7 +77,7 @@ window.onload = function() {
 
     var ctx = canvas.getContext("2d");
 
-    var text = "❤️ Vaa Ele ❤️".split("");
+    var text = "❤️ Hello Friend! 😊❤️".split("");
     var x = canvas.width / 2;
     var y = canvas.height / 2;
     var size = 30;
@@ -91,16 +95,23 @@ window.onload = function() {
     ctx.font = size + "px 'Press Start 2P'";
     ctx.textAlign = "center";
 
-    var shiba
-
     // Load image
     var image = new Image();
     image.src = 'https://img.freepik.com/premium-vector/pixel-art-dog-character-design-shiba_534389-2.jpg?w=2000'; // replace with your image URL
+    var shiba;
     image.onload = function() {
         // Create Shiba object
         shiba = new Shiba(image);
         animate();
     };
+
+    // Event listeners for mouse click and screen touch
+    canvas.addEventListener('click', function() {
+        shiba.jump();
+    });
+    canvas.addEventListener('touchstart', function() {
+        shiba.jump();
+    });
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
