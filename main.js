@@ -32,7 +32,7 @@ class Confetti {
 class Shiba {
     constructor(image) {
         this.image = image;
-        this.scale = 0.1; // Scale factor for the image size
+        this.scale = 0.6; // Scale factor for the image size
         this.width = this.image.width * this.scale; // Adjusted image width
         this.height = this.image.height * this.scale; // Adjusted image height
         this.x = Math.random() * (canvas.width - this.width);
@@ -97,7 +97,7 @@ window.onload = function() {
 
     // Load image
     var image = new Image();
-    image.src = 'https://img.freepik.com/premium-vector/pixel-art-dog-character-design-shiba_534389-2.jpg?w=2000'; // replace with your image URL
+    image.src = 'https://custom-progress-bar.com/cdn/images/859/pixel-shiba-inu-dog-custom-progress-bar-m.png'; // replace with your image URL
     var shiba;
     image.onload = function() {
         // Create Shiba object
